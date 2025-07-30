@@ -27,14 +27,14 @@ export default function Feed() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch("http://localhost:3005/posts");
+        const res = await fetch("http://localhost:3005/api/posts");
         const data = await res.json();
         console.log("DATA REÇUE :", data);
 
         const formattedPosts = data.map((post: any) => ({
           id: post.id,
           username: post.user.username,
-          avatar: post.user.avatar || "/default-avatar.png",
+          avatar: post.user.avatar,
           image_url: post.image_url,
           description: post.description,
           tags: post.tags.map((t: any) => t.tag.name),
@@ -52,10 +52,12 @@ export default function Feed() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      {posts.map((post) => (
-        <PostCard key={post.id} {...post} />
-      ))}
-    </div>
+    <>
+      <div className="space-y-6 mt-15">
+        {posts.map((post) => (
+          <PostCard key={post.id} {...post} />
+        ))}
+      </div>
+    </>
   );
 }
