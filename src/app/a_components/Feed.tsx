@@ -1,14 +1,8 @@
-"use client";
+'use client'
+
 import { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 
-type Comment = {
-  id: number;
-  content: string;
-  user: {
-    username: string;
-  };
-};
 
 type Post = {
   id: number;
@@ -18,11 +12,20 @@ type Post = {
   description: string;
   tags: string[];
   likes: number;
-  comments: Comment[];
+  comments: {
+    id: number;
+    content: string;
+    user: {
+      username: string;
+    };
+  }[];
 };
 
 export default function Feed() {
   const [posts, setPosts] = useState<Post[]>([]);
+  
+  // Temporairement tu peux hardcoder le userId :
+  const currentUserId = 1;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -33,12 +36,13 @@ export default function Feed() {
 
         const formattedPosts = data.map((post: any) => ({
           id: post.id,
+          postId: post.id, // <- on garde le postId
           username: post.user.username,
-          avatar: post.user.avatar,
+          avatar: post.user.avatar || "/default-avatar.png",
           image_url: post.image_url,
           description: post.description,
           tags: post.tags.map((t: any) => t.tag.name),
-          likes: post.likesCount || 0,
+          likes: post._count?.likes || 0,
           comments: post.comments || [],
         }));
 
@@ -52,12 +56,15 @@ export default function Feed() {
   }, []);
 
   return (
-    <>
-      <div className="space-y-6 mt-15">
-        {posts.map((post) => (
-          <PostCard key={post.id} {...post} />
-        ))}
-      </div>
-    </>
+    <div className="space-y-6 mt-15">
+      {posts.map((post) => (
+        <PostCard
+          key={post.id}
+          postId={post.id}
+          currentUserId={currentUserId}
+          {...post}
+        />
+      ))}
+    </div>
   );
 }

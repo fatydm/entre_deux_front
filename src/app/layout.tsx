@@ -20,11 +20,11 @@ const items = [
   },
   {
     lucide: <SquarePlus />,
-    link: "/"
+    link: "/user/newpost"
   },
   {
     lucide: <User />,
-    link: "/"
+    link: "/user/profile"
   }
 ]
 export default function RootLayout({
