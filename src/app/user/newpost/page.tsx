@@ -3,15 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// export default function NewPost() {
-//   return(
-//   <>
-//     <main>
-//         <p>hello</p>
-//     </main>
-//   </>
-//   )
-// }
 
 export default function NewPost() {
   const [title, setTitle] = useState("");
@@ -39,7 +30,7 @@ export default function NewPost() {
 
       if (!res.ok) throw new Error("Erreur lors de la publication");
 
-      router.push("/"); // Retour à l’accueil après post
+      router.push("/user/post"); // Retour à l’accueil après post
     } catch (error) {
       console.error(error);
       console.log("ou est l'erreur ");
